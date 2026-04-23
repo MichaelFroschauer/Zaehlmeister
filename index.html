@@ -7,335 +7,678 @@
   <style>
     :root{
       --bg:#f5f7fb;
-      --card:#ffffff;
+      --bg-soft:#fbfcff;
+      --card:rgba(255,255,255,.94);
       --line:#d9e0ea;
+      --line-strong:#c7d2e3;
       --text:#1f2937;
       --muted:#6b7280;
-      --accent:#2563eb;
-      --accent-2:#1d4ed8;
+
+      --accent:#7c3aed;
+      --accent-2:#6d28d9;
+      --accent-soft:#f3e8ff;
+      --accent-soft-2:#faf5ff;
+
       --ok:#16a34a;
+      --ok-soft:#ecfdf3;
       --warn:#dc2626;
-      --soft:#eef2ff;
+      --warn-soft:#fff5f5;
 
       --btn-font-size: 19px;
       --btn-height: 72px;
     }
+
     *{
-      box-sizing:border-box
+      box-sizing:border-box;
     }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(circle at top left, #ffffff 0%, #f9fafc 22%, #f5f7fb 60%),
+        var(--bg);
     }
+
     .wrap{
-      /*max-width:1200px;*/
       margin:0 auto;
-      padding:16px 16px 0px 16px;
+      padding:10px 10px 0 10px;
     }
+
     h1,h2,h3{
-      margin:0 0 10px
+      margin:0;
+      letter-spacing:-0.02em;
     }
+
+    h1{
+      font-size:30px;
+      line-height:1.1;
+      font-weight:800;
+    }
+
+    h2{
+      margin-bottom:14px;
+      font-size:22px;
+      line-height:1.2;
+      font-weight:780;
+    }
+
+    h3{
+      margin-bottom:10px;
+      font-size:18px;
+      font-weight:720;
+    }
+
+    hr{
+      border:none;
+      border-top:1px solid #e5e7eb;
+      margin:16px 0;
+    }
+
     .sub{
       color:var(--muted);
-      margin-bottom:14px
-    }
-    .grid{
-      display:grid;
-      gap:8px;
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:0 2px 8px rgba(0,0,0,.04);
-    }
-    .section{
-      margin-bottom:18px
-    }
-    .subsection{
-      margin-bottom:10px
-    }
-    .pillrow,.btnrow,.tilegrid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .tilegrid{
-      display:grid;
-      /*grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));*/
-      /*gap:10px;*/
-    }
-    .settings{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:20px;
+      margin-top:6px;
+      font-size:14px;
+      line-height:1.5;
     }
 
-    .settings-card{
-      background:#f8fafc;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:12px;
-    }
-
-    .settings-actions{
+    .header{
       display:flex;
       justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    button{
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--text);
-      border-radius:12px;
-      padding: 12px;
-      cursor:pointer;
-      font-size:16px;
-      font-weight:600;
-      /*min-height:5px;*/
-    }
-    button:hover{
-      border-color:#b6c1d3
-    }
-    button.primary{
-      background:var(--accent);
-      color:#fff;
-      border-color:var(--accent);
-    }
-    button.primary:hover{
-      background:var(--accent-2)
-    }
-    button.secondary{
-      background:var(--soft);
-      border-color:#c7d2fe;
-      color:#1e3a8a;
-    }
-    button.danger{
-      background:#fff5f5;
-      border-color:#fecaca;
-      color:#b91c1c;
-    }
-    button.selected{
-      outline:3px solid rgba(37,99,235,.18);
-      border-color:var(--accent);
-      background:var(--soft);
-    }
-    button.big{
-      font-size: var(--btn-font-size);
-      min-height: var(--btn-height);
-    }
-    .summary{
-      display:grid;
-      grid-template-columns: repeat(3,1fr);
+      align-items:center;
       gap:12px;
-      margin-bottom:12px;
-    }
-    .stat{
+      flex-wrap:wrap;
+      margin-bottom:8px;
+      padding:8px 18px;
       border:1px solid var(--line);
-      border-radius:12px;
-      padding:12px;
-      background:#fbfcfe;
+      border-radius:20px;
+      background:linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.96) 100%);
+      box-shadow:
+        0 1px 2px rgba(15,23,42,.03),
+        0 14px 34px rgba(15,23,42,.05);
+      backdrop-filter: blur(4px);
     }
-    .stat .n{
-      font-size:28px;
-      font-weight:800;
-      line-height:1.1;
-      margin-top:6px;
+
+    .header-title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
     }
-    label{
+
+    .navTabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .view{
+      display:none;
+    }
+
+    .view.active{
       display:block;
-      margin-bottom:6px;
-      font-weight:700;
     }
-    input[type="text"], textarea{
-      width:100%;
-      border:1px solid var(--line);
-      border-radius:10px;
-      padding:10px 12px;
-      font-size:15px;
-      font-family:inherit;
+
+    .grid{
+      display:grid;
+      gap:12px;
+      grid-template-columns:1fr 1fr 0.9fr;
     }
-    textarea{
-      min-height:90px; resize:vertical
+
+    .card{
+      background:var(--card);
+      border:1px solid rgba(217,224,234,.95);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:
+        0 1px 2px rgba(15,23,42,.03),
+        0 10px 30px rgba(15,23,42,.05);
+      backdrop-filter: blur(6px);
     }
+
+    .card.focus{
+      border-color:#ddd6fe;
+      box-shadow:
+        0 1px 2px rgba(15,23,42,.03),
+        0 12px 34px rgba(109,40,217,.08);
+    }
+
+    .section{
+      margin-bottom:16px;
+    }
+
+    .section:last-child{
+      margin-bottom:0;
+    }
+
+    .subsection{
+      margin-bottom:8px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
     .small{
-      font-size:13px;color:var(--muted)
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.45;
     }
+
+    .tiny{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+
     .inline{
       display:flex;
       gap:10px;
       align-items:center;
       flex-wrap:wrap;
     }
+
+    .btnrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .tilegrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+      gap:10px;
+    }
+
+    .sizegrid{
+      display:grid;
+      /*grid-template-columns:repeat(3, 1fr);*/
+      gap:12px;
+    }
+
+    button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      border-radius:14px;
+      padding:12px 14px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:650;
+      font-family:inherit;
+      transition:
+        transform .08s ease,
+        box-shadow .16s ease,
+        border-color .16s ease,
+        background-color .16s ease,
+        color .16s ease;
+      box-shadow:0 1px 2px rgba(0,0,0,.03);
+    }
+
+    button:hover{
+      border-color:#b6c1d3;
+      box-shadow:0 6px 16px rgba(15,23,42,.07);
+    }
+
+    button:active{
+      transform:translateY(1px) scale(.99);
+    }
+
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    button.primary{
+      background:linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
+      color:#fff;
+      border-color:transparent;
+    }
+
+    button.primary:hover{
+      filter:brightness(1.02);
+    }
+
+    button.secondary{
+      background:linear-gradient(180deg, #f8f6ff 0%, #efeaff 100%);
+      border-color:#ddd6fe;
+      color:#5b21b6;
+    }
+
+    button.danger{
+      background:linear-gradient(180deg, #fff5f5 0%, #fef2f2 100%);
+      border-color:#fecaca;
+      color:#b91c1c;
+    }
+
+    button.selected{
+      outline:none;
+      border-color:var(--accent);
+      background:linear-gradient(180deg, #f8f5ff 0%, #efe7ff 100%);
+      box-shadow:
+        0 0 0 3px rgba(124,58,237,.12),
+        inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    button.big{
+      font-size:var(--btn-font-size);
+      min-height:var(--btn-height);
+    }
+
+    .size-btn{
+      font-size:22px !important;
+      font-weight:800;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:760;
+      font-size:15px;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="range"]{
+      font-family:inherit;
+    }
+
+    input[type="text"],
+    textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:15px;
+      background:#fff;
+      color:var(--text);
+      transition:border-color .15s ease, box-shadow .15s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus{
+      outline:none;
+      border-color:#c4b5fd;
+      box-shadow:0 0 0 3px rgba(124,58,237,.1);
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .selection-card{
+      border:1px solid #ddd6fe;
+      background:linear-gradient(180deg, #faf5ff 0%, #f5f3ff 100%);
+      border-radius:14px;
+      padding:14px;
+      margin-bottom:12px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+    }
+
+    .selection-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#6d28d9;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .selection-value{
+      font-size:15px;
+      font-weight:800;
+      line-height:1.25;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+
+    .stat{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      box-shadow:0 4px 14px rgba(15,23,42,.04);
+    }
+
+    .stat .n{
+      font-size:34px;
+      font-weight:820;
+      line-height:1;
+      margin-top:8px;
+      letter-spacing:-0.02em;
+    }
+
+    .log{
+      max-height:180px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:8px;
+      background:linear-gradient(180deg, #fcfdff 0%, #f8fafc 100%);
+    }
+
+    .logitem{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 4px;
+      padding:4px 4px;
+      border-bottom:1px solid #edf2f7;
+      font-size:13px;
+    }
+
+    .logitem:last-child{
+      border-bottom:none;
+    }
+
+    .ok{
+      color:var(--ok);
+      font-weight:700;
+    }
+
+    .scrollFollow{
+      position:sticky;
+      top:8px;
+    }
+
+    .tablewrap{
+      overflow:auto;
+      max-height:700px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
     table{
       width:100%;
       border-collapse:collapse;
       font-size:14px;
     }
+
     th,td{
       border:1px solid var(--line);
-      padding:8px 10px;
+      padding:10px 12px;
       text-align:center;
+      white-space:nowrap;
     }
+
     th{
       background:#f8fafc;
       position:sticky;
       top:0;
+      z-index:2;
+      font-weight:760;
     }
-    td:first-child, th:first-child{
+
+    td:first-child,
+    th:first-child{
       text-align:left;
       position:sticky;
       left:0;
       background:#f8fafc;
       z-index:1;
     }
-    .tablewrap{
-      overflow:auto;
-      max-height:700px;
-      border:1px solid var(--line);
-      border-radius:12px;
-    }
-    .log{
-      max-height:200px;
-      overflow:auto;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:8px;
-      background:#fcfdff;
-    }
-    .logitem{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      padding:8px;
-      border-bottom:1px solid #edf2f7;
-      font-size:14px;
-    }
-    .logitem:last-child{
-      border-bottom:none
-    }
-    .muted{
-      color:var(--muted)
-    }
-    .ok{
-      color:var(--ok)
-    }
-    .warn{
-      color:var(--warn)
-    }
-    .scrollFollow {
-      position: sticky;
-      top: 8px;
-    }
-    .navTabs{
-      display:flex;
-      gap:8px;
-      margin:0 0 16px 0;
-      flex-wrap:wrap;
-    }
-    .view{
-      display:none;
-    }
-    .view.active{
-      display:block;
+
+    tbody tr:nth-child(even){
+      background:#fafbfc;
     }
 
-    .header{
+    tbody tr:hover{
+      background:#f4f7fb;
+    }
+
+    tbody tr:last-child{
+      background:#efeaff;
+      font-weight:800;
+    }
+
+    .settings{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .settings-card{
+      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 4px 14px rgba(15,23,42,.03);
+    }
+
+    .settings-actions{
       display:flex;
       justify-content:space-between;
-      align-items:flex-start;
-      gap:8px;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .settings-preview{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      padding:14px;
+      margin-bottom:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .slider-group{
+      display:grid;
+      gap:12px;
+      min-width:320px;
+      flex:1;
+    }
+
+    .slider-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
       flex-wrap:wrap;
     }
-    .selection-card{
-      border:1px solid var(--line);
-      background:#f8fafc;
-      border-radius:12px;
-      padding:12px;
-      margin-bottom:12px;
+
+    .slider-row label{
+      min-width:110px;
+      margin:0;
     }
-    .selection-title{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
+
+    .slider-row input[type="range"]{
+      flex:1;
+      min-width:180px;
+      accent-color:var(--accent);
     }
-    .selection-value{
-      font-size:18px;
+
+    .slider-value{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:64px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#efeaff;
+      border:1px solid #ddd6fe;
+      color:#5b21b6;
       font-weight:700;
+      font-size:13px;
     }
+
+    .test-button-wrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-width:220px;
+      padding:8px;
+    }
+
+    .footer{
+      margin:12px 16px 12px;
+      font-size:12px;
+      color:var(--muted);
+      opacity:.82;
+    }
+
     .toast{
       position:fixed;
       right:16px;
       bottom:16px;
-      background:#ecfdf3;
+      background:linear-gradient(180deg, #ecfdf3 0%, #dcfce7 100%);
       color:#166534;
       border:1px solid #bbf7d0;
       padding:12px 16px;
-      border-radius:12px;
-      box-shadow:0 4px 12px rgba(0,0,0,.1);
+      border-radius:14px;
+      box-shadow:
+        0 8px 24px rgba(0,0,0,.08),
+        0 2px 6px rgba(0,0,0,.05);
       font-size:14px;
-      font-weight:600;
+      font-weight:700;
       opacity:0;
-      transform:translateY(20px);
-      transition:all 0.2s ease;
+      transform:translateY(20px) scale(.98);
+      transition:all .2s ease;
       z-index:9999;
+      pointer-events:none;
+      max-width:min(90vw, 420px);
     }
+
     .toast.show{
       opacity:1;
-      transform:translateY(0);
+      transform:translateY(0) scale(1);
+    }
+
+    @media (max-width: 900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .scrollFollow{
+        position:static;
+      }
+
+      .settings{
+        grid-template-columns:1fr;
+      }
+
+      .summary{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 700px){
+      .wrap{
+        padding:12px 12px 0 12px;
+      }
+
+      h1{
+        font-size:26px;
+      }
+
+      .header{
+        padding:14px;
+      }
+
+      .navTabs{
+        width:100%;
+      }
+
+      .navTabs button{
+        flex:1;
+      }
+
+      .sizegrid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .slider-row{
+        align-items:flex-start;
+      }
+
+      .slider-row label{
+        min-width:auto;
+        width:100%;
+      }
+
+      .test-button-wrap{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .footer{
+        margin-bottom:72px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="header">
-      <h1>Weinfrühling 2026</h1>
+      <div class="header-title">
+        <h1>Weinfrühling 2026</h1>
+        <!-- <div class="sub">Besucherstatistik & Herkunftserfassung</div> -->
+      </div>
+
       <div class="navTabs">
         <button class="primary navBtn active" data-view="erfassung">Erfassung</button>
         <button class="secondary navBtn" data-view="auswertung">Auswertung</button>
         <button class="secondary navBtn" data-view="einstellungen">Einstellungen</button>
       </div>
     </div>
-    <!-- <div class="sub">Offline-Webapp für eine lokale Erfassung im Browser. Die Daten bleiben auf diesem Gerät und werden im Browser gespeichert.</div> -->
 
     <div id="view-erfassung" class="view active">
       <div class="grid">
         <div>
-          <div class="card section scrollFollow">
+          <div class="card focus section scrollFollow">
             <div class="section">
               <label>1) Ort auswählen</label>
               <div class="tilegrid" id="placeButtons"></div>
             </div>
           </div>
         </div>
+
         <div>
-          <div class="card section scrollFollow">
+          <div class="card focus section scrollFollow">
             <div class="section">
               <label>2) Quelle auswählen</label>
               <div class="tilegrid" id="sourceButtons"></div>
             </div>
           </div>
         </div>
+
         <div>
-          <div class="card section scrollFollow">
+          <div class="card focus section scrollFollow">
             <div class="section">
               <label>3) Gruppengröße</label>
+
               <div class="selection-card">
                 <div class="selection-title">Aktuelle Auswahl</div>
                 <div class="selection-value" id="selectionText">Kein Ort / keine Quelle</div>
               </div>
-              <div class="btnrow tilegrid" id="sizeButtons"></div>
+
+              <div class="sizegrid" id="sizeButtons"></div>
             </div>
+
             <hr>
-            <div class="subsection">
+
+            <div class="section">
               <label>Letzte Einträge</label>
-              <button class="subsection secondary" id="undoBtn">Letzten Eintrag rückgängig</button>
+              <div class="subsection">
+                <button class="secondary" id="undoBtn">Letzten Eintrag rückgängig</button>
+              </div>
               <div class="log" id="log"></div>
             </div>
           </div>
@@ -345,24 +688,24 @@
 
     <div id="view-auswertung" class="view">
       <div class="card section">
-        <div class="section">
-          <h2>Erfassung</h2>
+        <h2>Überblick</h2>
+
         <div class="summary">
           <div class="stat">
-            <div class="small">Besucher Gesamt</div>
+            <div class="small">Besucher gesamt</div>
             <div class="n" id="totalCount">0</div>
           </div>
           <div class="stat">
-            <div class="small">Orte</div>
+            <div class="small">Orte mit Einträgen</div>
             <div class="n" id="placeCount">0</div>
           </div>
           <div class="stat">
-            <div class="small">Quellen</div>
+            <div class="small">Quellen mit Einträgen</div>
             <div class="n" id="sourceCount">0</div>
           </div>
         </div>
-        </div>
       </div>
+
       <div class="card section">
         <h2>Export / Verwaltung</h2>
         <div class="btnrow">
@@ -374,6 +717,7 @@
           CSV enthält sowohl die Matrix Ort × Quelle als auch alle Einzelereignisse.
         </div>
       </div>
+
       <div class="card section">
         <h2>Auswertung Ort × Quelle</h2>
         <div class="tablewrap">
@@ -386,46 +730,58 @@
       <div class="card section">
         <h2>Einstellungen</h2>
 
-        <div style="display:flex; gap:20px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
-          <div>
-            <label for="fontSizeSlider">Schriftgröße:</label>
-            <input type="range" min="14" max="30" value="19" id="fontSizeSlider">
-            <span id="fontSizeValue">19 px</span>
+        <div class="settings-preview">
+          <div class="slider-group">
+            <div class="slider-row">
+              <label for="fontSizeSlider">Schriftgröße</label>
+              <input type="range" min="14" max="30" value="19" id="fontSizeSlider">
+              <span id="fontSizeValue" class="slider-value">19 px</span>
+            </div>
 
-            <label for="buttonSizeSlider">Buttongröße:</label>
-            <input type="range" min="50" max="110" value="72" id="buttonSizeSlider">
-            <span id="buttonSizeValue">72 px</span>
+            <div class="slider-row">
+              <label for="buttonSizeSlider">Buttongröße</label>
+              <input type="range" min="50" max="110" value="72" id="buttonSizeSlider">
+              <span id="buttonSizeValue" class="slider-value">72 px</span>
+            </div>
+
+            <div class="tiny">
+              Änderungen wirken sich sofort auf die Buttons in der Erfassung aus.
+            </div>
           </div>
 
-          <button class="big" style="min-width:200px;">Testbutton</button>
+          <div class="test-button-wrap">
+            <button class="big">Testbutton</button>
+          </div>
         </div>
-        
-        <div class="settings">          
+
+        <div class="settings">
           <div class="settings-card">
             <label for="placesInput">Orte</label>
-            <div class="small">Eine Zeile pro Ort</div>
+            <div class="small" style="margin-bottom:10px">Eine Zeile pro Ort.</div>
             <textarea id="placesInput" rows="18"></textarea>
           </div>
+
           <div class="settings-card">
             <label for="sourcesInput">Quellen</label>
-            <div class="small">Eine Zeile pro Quelle</div>
+            <div class="small" style="margin-bottom:10px">Eine Zeile pro Quelle. Weniger Kategorien = schnellere Eingabe.</div>
             <textarea id="sourcesInput" rows="18"></textarea>
           </div>
         </div>
 
         <div class="settings-actions">
-          <div>
-            <button class="secondary" id="saveSettingsBtn">Speichern</button>
+          <div class="btnrow">
+            <button class="primary" id="saveSettingsBtn">Speichern</button>
             <button class="danger" id="resetSettingsBtn">Zurücksetzen</button>
           </div>
           <div class="small">
-            Änderungen wirken sich sofort auf neue Eingaben aus
+            Bestehende Einträge bleiben erhalten, sofern die Namen gleich bleiben.
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="small" style="margin: 8px">&#169; 2026 Ing. Michael Froschauer, BSc. Alle Rechte vorbehalten.</div>
+
+  <div class="footer">&#169; 2026 Ing. Michael Froschauer, BSc. Alle Rechte vorbehalten.</div>
   <div id="toast" class="toast"></div>
 
   <script>
@@ -463,7 +819,9 @@
     const STORAGE_KEYS = {
       entries: "zeltfest_entries_v1",
       places: "zeltfest_places_v1",
-      sources: "zeltfest_sources_v1"
+      sources: "zeltfest_sources_v1",
+      btnFontSize: "btnFontSize",
+      btnHeight: "btnHeight"
     };
 
     let state = {
@@ -501,6 +859,50 @@
         .replaceAll("'","&#039;");
     }
 
+    const fontSizeSlider = document.getElementById("fontSizeSlider");
+    const buttonSizeSlider = document.getElementById("buttonSizeSlider");
+    const fontSizeValue = document.getElementById("fontSizeValue");
+    const buttonSizeValue = document.getElementById("buttonSizeValue");
+
+    function applyButtonSettings(fontSize, buttonHeight){
+      document.documentElement.style.setProperty("--btn-font-size", fontSize + "px");
+      document.documentElement.style.setProperty("--btn-height", buttonHeight + "px");
+
+      fontSizeSlider.value = fontSize;
+      buttonSizeSlider.value = buttonHeight;
+      fontSizeValue.textContent = fontSize + " px";
+      buttonSizeValue.textContent = buttonHeight + " px";
+    }
+
+    function saveButtonSettings(fontSize, buttonHeight){
+      localStorage.setItem(STORAGE_KEYS.btnFontSize, fontSize);
+      localStorage.setItem(STORAGE_KEYS.btnHeight, buttonHeight);
+    }
+
+    function loadButtonSettings(){
+      const savedFontSize = localStorage.getItem(STORAGE_KEYS.btnFontSize);
+      const savedButtonHeight = localStorage.getItem(STORAGE_KEYS.btnHeight);
+
+      const fontSize = savedFontSize ? parseInt(savedFontSize, 10) : 19;
+      const buttonHeight = savedButtonHeight ? parseInt(savedButtonHeight, 10) : 72;
+
+      applyButtonSettings(fontSize, buttonHeight);
+    }
+
+    fontSizeSlider.addEventListener("input", (e) => {
+      const fontSize = parseInt(e.target.value, 10);
+      const buttonHeight = parseInt(buttonSizeSlider.value, 10);
+      applyButtonSettings(fontSize, buttonHeight);
+      saveButtonSettings(fontSize, buttonHeight);
+    });
+
+    buttonSizeSlider.addEventListener("input", (e) => {
+      const fontSize = parseInt(fontSizeSlider.value, 10);
+      const buttonHeight = parseInt(e.target.value, 10);
+      applyButtonSettings(fontSize, buttonHeight);
+      saveButtonSettings(fontSize, buttonHeight);
+    });
+
     function renderCategoryButtons(){
       const placeWrap = document.getElementById("placeButtons");
       const sourceWrap = document.getElementById("sourceButtons");
@@ -537,10 +939,13 @@
       const sizes = [1,2,3,4,5];
       const wrap = document.getElementById("sizeButtons");
       wrap.innerHTML = "";
+      const disabled = !state.selectedPlace || !state.selectedSource;
+
       sizes.forEach(n => {
         const btn = document.createElement("button");
         btn.textContent = "+ " + n;
-        btn.className = "secondary big";
+        btn.className = "secondary big size-btn";
+        btn.disabled = disabled;
         btn.onclick = () => {
           state.selectedSize = n;
           saveEntry();
@@ -548,48 +953,6 @@
         wrap.appendChild(btn);
       });
     }
-
-    const fontSizeSlider = document.getElementById("fontSizeSlider");
-    const buttonSizeSlider = document.getElementById("buttonSizeSlider");
-    const fontSizeValue = document.getElementById("fontSizeValue");
-    const buttonSizeValue = document.getElementById("buttonSizeValue");
-
-    function applyButtonSettings(fontSize, buttonHeight){
-      document.documentElement.style.setProperty("--btn-font-size", fontSize + "px");
-      document.documentElement.style.setProperty("--btn-height", buttonHeight + "px");
-      fontSizeSlider.value = fontSize;
-      buttonSizeSlider.value = buttonHeight;
-      fontSizeValue.textContent = fontSize + " px";
-      buttonSizeValue.textContent = buttonHeight + " px";
-    }
-
-    function saveButtonSettings(fontSize, buttonHeight){
-      localStorage.setItem("btnFontSize", fontSize);
-      localStorage.setItem("btnHeight", buttonHeight);
-    }
-
-    function loadButtonSettings(){
-      const savedFontSize = localStorage.getItem("btnFontSize");
-      const savedButtonHeight = localStorage.getItem("btnHeight");
-      const fontSize = savedFontSize ? parseInt(savedFontSize, 10) : 19;
-      const buttonHeight = savedButtonHeight ? parseInt(savedButtonHeight, 10) : 72;
-      applyButtonSettings(fontSize, buttonHeight);
-    }
-
-    fontSizeSlider.addEventListener("input", (e) => {
-      const fontSize = parseInt(e.target.value, 10);
-      const buttonHeight = parseInt(buttonSizeSlider.value, 10);
-      applyButtonSettings(fontSize, buttonHeight);
-      saveButtonSettings(fontSize, buttonHeight);
-    });
-
-    buttonSizeSlider.addEventListener("input", (e) => {
-      const fontSize = parseInt(fontSizeSlider.value, 10);
-      const buttonHeight = parseInt(e.target.value, 10);
-      applyButtonSettings(fontSize, buttonHeight);
-      saveButtonSettings(fontSize, buttonHeight);
-    });
-
 
     function renderSelection(){
       const txt = `${state.selectedPlace ?? "Kein Ort"} / ${state.selectedSource ?? "keine Quelle"}`;
@@ -607,6 +970,7 @@
         state.sources.forEach(s => matrix[p][s] = 0);
         byPlace[p] = 0;
       });
+
       state.sources.forEach(s => bySource[s] = 0);
 
       for(const e of state.entries){
@@ -641,14 +1005,16 @@
       }, 2000);
     }
 
-    function getLocalTimestamp(isoDateTimeStr=null){
+    function getLocalTimestamp(isoDateTimeStr = null){
       let dt;
       if (isoDateTimeStr === null) {
         dt = new Date();
       } else {
         dt = new Date(isoDateTimeStr);
       }
-      const time = isNaN(dt) ? "" : dt.toLocaleTimeString("de-AT", {hour:"2-digit", minute:"2-digit", second:"2-digit"});
+      const time = isNaN(dt)
+        ? ""
+        : dt.toLocaleTimeString("de-AT", {hour:"2-digit", minute:"2-digit", second:"2-digit"});
       return time;
     }
 
@@ -681,17 +1047,19 @@
         html += `<td><strong>${bySource[source] ?? 0}</strong></td>`;
       });
       html += `<td><strong>${total}</strong></td></tr>`;
-
       html += "</tbody>";
+
       table.innerHTML = html;
     }
 
     function renderLog(){
       const log = document.getElementById("log");
+
       if(state.entries.length === 0){
-        log.innerHTML = '<div class="muted">Noch keine Einträge vorhanden.</div>';
+        log.innerHTML = '<div class="muted" style="padding:8px;">Noch keine Einträge vorhanden.</div>';
         return;
       }
+
       const latest = [...state.entries].slice(-12).reverse();
       log.innerHTML = latest.map(e => {
         const time = getLocalTimestamp(e.timestamp);
@@ -723,15 +1091,16 @@
         alert("Bitte zuerst einen Ort und eine Quelle auswählen.");
         return;
       }
+
       state.entries.push({
         place: state.selectedPlace,
         source: state.selectedSource,
         size: state.selectedSize,
         timestamp: new Date().toISOString()
       });
+
       saveState();
       renderAll();
-
       showToast(`${state.selectedPlace} × ${state.selectedSource} (+${state.selectedSize})`);
     }
 
@@ -740,9 +1109,11 @@
         alert("Es gibt keinen Eintrag zum Rückgängigmachen.");
         return;
       }
+
       state.entries.pop();
       saveState();
       renderAll();
+      showToast("Letzter Eintrag entfernt");
     }
 
     function download(filename, content, type){
@@ -767,20 +1138,26 @@
 
       lines.push("Matrix Ort x Quelle");
       lines.push(["Ort", ...state.sources, "Summe"].map(csvEscape).join(";"));
+
       state.places.forEach(place => {
         const row = [place, ...state.sources.map(source => matrix[place]?.[source] ?? 0), byPlace[place] ?? 0];
         lines.push(row.map(csvEscape).join(";"));
       });
+
       lines.push(["Summe", ...state.sources.map(source => bySource[source] ?? 0), total].map(csvEscape).join(";"));
       lines.push("");
       lines.push("Einzelereignisse");
       lines.push(["Zeitpunkt", "Ort", "Quelle", "Anzahl"].map(csvEscape).join(";"));
+
       state.entries.forEach(e => {
         lines.push([e.timestamp, e.place, e.source, e.size].map(csvEscape).join(";"));
       });
 
-      //const stamp = new Date().toISOString().slice(0,19).replaceAll(":","-");
-      const stamp = new Date().toLocaleString("de-AT").replaceAll(":","-").replaceAll(", ", "__").replaceAll(".", "-");
+      const stamp = new Date().toLocaleString("de-AT")
+        .replaceAll(":","-")
+        .replaceAll(", ", "__")
+        .replaceAll(".", "-");
+
       download(`weinfrueling-befragung-${stamp}.csv`, lines.join("\n"), "text/csv;charset=utf-8");
     }
 
@@ -792,8 +1169,12 @@
         entries: state.entries,
         counts: getCounts()
       };
-      //const stamp = new Date().toISOString().slice(0,19).replaceAll(":","-");
-      const stamp = new Date().toLocaleString("de-AT").replaceAll(":","-").replaceAll(", ", "__").replaceAll(".", "-");
+
+      const stamp = new Date().toLocaleString("de-AT")
+        .replaceAll(":","-")
+        .replaceAll(", ", "__")
+        .replaceAll(".", "-");
+
       download(`weinfrueling-befragung-${stamp}.json`, JSON.stringify(data, null, 2), "application/json;charset=utf-8");
     }
 
@@ -821,7 +1202,6 @@
       btn.onclick = () => showView(btn.dataset.view);
     });
 
-    //document.getElementById("saveBtn").onclick = saveEntry;
     document.getElementById("undoBtn").onclick = undoLast;
     document.getElementById("exportCsvBtn").onclick = exportCsv;
     document.getElementById("exportJsonBtn").onclick = exportJson;
@@ -843,25 +1223,31 @@
 
       saveState();
       renderAll();
-      alert("Kategorien gespeichert.");
+      showToast("Kategorien gespeichert");
     };
 
     document.getElementById("resetSettingsBtn").onclick = () => {
       if(!confirm("Standardkategorien laden? Eigene Kategorien werden ersetzt.")) return;
+
       state.places = [...DEFAULT_PLACES];
       state.sources = [...DEFAULT_SOURCES];
+
       if(!state.places.includes(state.selectedPlace)) state.selectedPlace = null;
       if(!state.sources.includes(state.selectedSource)) state.selectedSource = null;
+
       saveState();
       renderAll();
+      showToast("Standardkategorien geladen");
     };
 
     document.getElementById("resetAllBtn").onclick = () => {
       if(!confirm("Wirklich alle erfassten Daten löschen?")) return;
       if(!confirm("Sicher? Dieser Schritt kann nicht rückgängig gemacht werden.")) return;
+
       state.entries = [];
       saveState();
       renderAll();
+      showToast("Alle Daten gelöscht");
     };
 
     renderAll();
