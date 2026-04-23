@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weinfrühling Befragung</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --line:#d9e0ea;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent-2:#1d4ed8;
+      --ok:#16a34a;
+      --warn:#dc2626;
+      --soft:#eef2ff;
+    }
+    *{
+      box-sizing:border-box
+    }
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .wrap{
+      /*max-width:1200px;*/
+      margin:0 auto;
+      padding:16px 16px 0px 16px;
+    }
+    h1,h2,h3{
+      margin:0 0 10px
+    }
+    .sub{
+      color:var(--muted);
+      margin-bottom:14px
+    }
+    .grid{
+      display:grid;
+      gap:8px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+    }
+    .section{
+      margin-bottom:18px
+    }
+    .subsection{
+      margin-bottom:10px
+    }
+    .pillrow,.btnrow,.tilegrid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .tilegrid{
+      display:grid;
+      /*grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));*/
+      /*gap:10px;*/
+    }
+    .settings{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:20px;
+    }
+
+    .settings-card{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+
+    .settings-actions{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      border-radius:12px;
+      padding:12px 14px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:600;
+      min-height:58px;
+    }
+    button:hover{
+      border-color:#b6c1d3
+    }
+    button.primary{
+      background:var(--accent);
+      color:#fff;
+      border-color:var(--accent);
+    }
+    button.primary:hover{
+      background:var(--accent-2)
+    }
+    button.secondary{
+      background:var(--soft);
+      border-color:#c7d2fe;
+      color:#1e3a8a;
+    }
+    button.danger{
+      background:#fff5f5;
+      border-color:#fecaca;
+      color:#b91c1c;
+    }
+    button.selected{
+      outline:3px solid rgba(37,99,235,.18);
+      border-color:var(--accent);
+      background:var(--soft);
+    }
+    .big{
+      font-size:19px;
+      min-height:72px;
+    }
+    .summary{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .stat{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background:#fbfcfe;
+    }
+    .stat .n{
+      font-size:28px;
+      font-weight:800;
+      line-height:1.1;
+      margin-top:6px;
+    }
+    label{
+      display:block;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    input[type="text"], textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:15px;
+      font-family:inherit;
+    }
+    textarea{
+      min-height:90px; resize:vertical
+    }
+    .small{
+      font-size:13px;color:var(--muted)
+    }
+    .inline{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    th,td{
+      border:1px solid var(--line);
+      padding:8px 10px;
+      text-align:center;
+    }
+    th{
+      background:#f8fafc;
+      position:sticky;
+      top:0;
+    }
+    td:first-child, th:first-child{
+      text-align:left;
+      position:sticky;
+      left:0;
+      background:#f8fafc;
+      z-index:1;
+    }
+    .tablewrap{
+      overflow:auto;
+      max-height:700px;
+      border:1px solid var(--line);
+      border-radius:12px;
+    }
+    .log{
+      max-height:200px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px;
+      background:#fcfdff;
+    }
+    .logitem{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px;
+      border-bottom:1px solid #edf2f7;
+      font-size:14px;
+    }
+    .logitem:last-child{
+      border-bottom:none
+    }
+    .muted{
+      color:var(--muted)
+    }
+    .ok{
+      color:var(--ok)
+    }
+    .warn{
+      color:var(--warn)
+    }
+    .scrollFollow {
+      position: sticky;
+      top: 8px;
+    }
+    .navTabs{
+      display:flex;
+      gap:8px;
+      margin:0 0 16px 0;
+      flex-wrap:wrap;
+    }
+    .view{
+      display:none;
+    }
+    .view.active{
+      display:block;
+    }
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .selection-card{
+      border:1px solid var(--line);
+      background:#f8fafc;
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:12px;
+    }
+    .selection-title{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .selection-value{
+      font-size:18px;
+      font-weight:700;
+    }
+    .toast{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      background:#ecfdf3;
+      color:#166534;
+      border:1px solid #bbf7d0;
+      padding:12px 16px;
+      border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,.1);
+      font-size:14px;
+      font-weight:600;
+      opacity:0;
+      transform:translateY(20px);
+      transition:all 0.2s ease;
+      z-index:9999;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Weinfrühling 2026</h1>
+      <div class="navTabs">
+        <button class="primary navBtn active" data-view="erfassung">Erfassung</button>
+        <button class="secondary navBtn" data-view="auswertung">Auswertung</button>
+        <button class="secondary navBtn" data-view="einstellungen">Einstellungen</button>
+      </div>
+    </div>
+    <!-- <div class="sub">Offline-Webapp für eine lokale Erfassung im Browser. Die Daten bleiben auf diesem Gerät und werden im Browser gespeichert.</div> -->
+
+    <div id="view-erfassung" class="view active">
+      <div class="grid">
+        <div>
+          <div class="card section scrollFollow">
+            <div class="section">
+              <label>1) Ort auswählen</label>
+              <div class="tilegrid" id="placeButtons"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card section scrollFollow">
+            <div class="section">
+              <label>2) Quelle auswählen</label>
+              <div class="tilegrid" id="sourceButtons"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card section scrollFollow">
+            <div class="section">
+              <label>3) Gruppengröße</label>
+              <div class="selection-card">
+                <div class="selection-title">Aktuelle Auswahl</div>
+                <div class="selection-value" id="selectionText">Kein Ort / keine Quelle</div>
+              </div>
+              <div class="btnrow tilegrid" id="sizeButtons"></div>
+            </div>
+            <hr>
+            <div class="subsection">
+              <label>Letzte Einträge</label>
+              <button class="subsection secondary" id="undoBtn">Letzten Eintrag rückgängig</button>
+              <div class="log" id="log"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-auswertung" class="view">
+      <div class="card section">
+        <div class="section">
+          <h2>Erfassung</h2>
+        <div class="summary">
+          <div class="stat">
+            <div class="small">Besucher Gesamt</div>
+            <div class="n" id="totalCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="small">Orte</div>
+            <div class="n" id="placeCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="small">Quellen</div>
+            <div class="n" id="sourceCount">0</div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="card section">
+        <h2>Export / Verwaltung</h2>
+        <div class="btnrow">
+          <button class="secondary" id="exportCsvBtn">CSV exportieren</button>
+          <button class="secondary" id="exportJsonBtn">JSON exportieren</button>
+          <button class="danger" id="resetAllBtn">Alle Daten löschen</button>
+        </div>
+        <div class="small" style="margin-top:10px">
+          CSV enthält sowohl die Matrix Ort × Quelle als auch alle Einzelereignisse.
+        </div>
+      </div>
+      <div class="card section">
+        <h2>Auswertung Ort × Quelle</h2>
+        <div class="tablewrap">
+          <table id="matrixTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-einstellungen" class="view">
+      <div class="card section">
+        <h2>Einstellungen</h2>
+
+        <div class="settings">
+          <div class="settings-card">
+            <label for="placesInput">Orte</label>
+            <div class="small">Eine Zeile pro Ort</div>
+            <textarea id="placesInput" rows="18"></textarea>
+          </div>
+          <div class="settings-card">
+            <label for="sourcesInput">Quellen</label>
+            <div class="small">Eine Zeile pro Quelle</div>
+            <textarea id="sourcesInput" rows="18"></textarea>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <div>
+            <button class="secondary" id="saveSettingsBtn">Speichern</button>
+            <button class="danger" id="resetSettingsBtn">Zurücksetzen</button>
+          </div>
+          <div class="small">
+            Änderungen wirken sich sofort auf neue Eingaben aus
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="small" style="margin: 8px">&#169; 2026 Ing. Michael Froschauer, BSc. Alle Rechte vorbehalten.</div>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const DEFAULT_PLACES = [
+      "Hofkirchen",
+      "Pfarrkirchen",
+      "Niederkappel",
+      "Lembach",
+      "Neustift",
+      "Oberkappel",
+      "Putzleinsdorf",
+      "Atzesberg",
+      "Sarleinsbach",
+      "Hörbich",
+      "Engelhartszell",
+      "St. Ägidi",
+      "Waldkirchen",
+      "St. Agatha",
+      "Haibach",
+      "Altenfelden",
+      "Kirchberg",
+      "Neufelden",
+      "Sonstiger Ort"
+    ];
+
+    const DEFAULT_SOURCES = [
+      "Freunde/Bekannte",
+      "Instagram/Facebook",
+      "Plakat/Flyer",
+      "Verein",
+      "Stammgast",
+      "Sonstiges"
+    ];
+
+    const STORAGE_KEYS = {
+      entries: "zeltfest_entries_v1",
+      places: "zeltfest_places_v1",
+      sources: "zeltfest_sources_v1"
+    };
+
+    let state = {
+      places: loadArray(STORAGE_KEYS.places, DEFAULT_PLACES),
+      sources: loadArray(STORAGE_KEYS.sources, DEFAULT_SOURCES),
+      entries: loadArray(STORAGE_KEYS.entries, []),
+      selectedPlace: null,
+      selectedSource: null,
+      selectedSize: 1
+    };
+
+    function loadArray(key, fallback){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return [...fallback];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...fallback];
+      }catch{
+        return [...fallback];
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEYS.entries, JSON.stringify(state.entries));
+      localStorage.setItem(STORAGE_KEYS.places, JSON.stringify(state.places));
+      localStorage.setItem(STORAGE_KEYS.sources, JSON.stringify(state.sources));
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function renderCategoryButtons(){
+      const placeWrap = document.getElementById("placeButtons");
+      const sourceWrap = document.getElementById("sourceButtons");
+      placeWrap.innerHTML = "";
+      sourceWrap.innerHTML = "";
+
+      [...state.places].sort().forEach(place => {
+        const btn = document.createElement("button");
+        btn.textContent = place;
+        btn.className = "big" + (state.selectedPlace === place ? " selected" : "");
+        btn.onclick = () => {
+          state.selectedPlace = place;
+          renderAll();
+        };
+        placeWrap.appendChild(btn);
+      });
+
+      state.sources.forEach(source => {
+        const btn = document.createElement("button");
+        btn.textContent = source;
+        btn.className = "big" + (state.selectedSource === source ? " selected" : "");
+        btn.onclick = () => {
+          state.selectedSource = source;
+          renderAll();
+        };
+        sourceWrap.appendChild(btn);
+      });
+
+      document.getElementById("placesInput").value = state.places.join("\n");
+      document.getElementById("sourcesInput").value = state.sources.join("\n");
+    }
+
+    function renderSizeButtons(){
+      const sizes = [1,2,3,4,5];
+      const wrap = document.getElementById("sizeButtons");
+      wrap.innerHTML = "";
+      sizes.forEach(n => {
+        const btn = document.createElement("button");
+        btn.textContent = "+ " + n;
+        btn.className = "secondary big";
+        btn.onclick = () => {
+          state.selectedSize = n;
+          saveEntry();
+        };
+        wrap.appendChild(btn);
+      });
+    }
+
+    function renderSelection(){
+      const txt = `${state.selectedPlace ?? "Kein Ort"} / ${state.selectedSource ?? "keine Quelle"}`;
+      document.getElementById("selectionText").textContent = txt;
+    }
+
+    function getCounts(){
+      const matrix = {};
+      const byPlace = {};
+      const bySource = {};
+      let total = 0;
+
+      state.places.forEach(p => {
+        matrix[p] = {};
+        state.sources.forEach(s => matrix[p][s] = 0);
+        byPlace[p] = 0;
+      });
+      state.sources.forEach(s => bySource[s] = 0);
+
+      for(const e of state.entries){
+        if(!matrix[e.place]) matrix[e.place] = {};
+        if(matrix[e.place][e.source] == null) matrix[e.place][e.source] = 0;
+        if(byPlace[e.place] == null) byPlace[e.place] = 0;
+        if(bySource[e.source] == null) bySource[e.source] = 0;
+
+        matrix[e.place][e.source] += e.size;
+        byPlace[e.place] += e.size;
+        bySource[e.source] += e.size;
+        total += e.size;
+      }
+
+      return {matrix, byPlace, bySource, total};
+    }
+
+    let toastTimeout;
+    function showToast(message, type = "success"){
+      const toast = document.getElementById("toast");
+
+      clearTimeout(toastTimeout);
+      toast.textContent = message;
+      toast.className = "toast " + type;
+
+      requestAnimationFrame(() => {
+        toast.classList.add("show");
+      });
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2000);
+    }
+
+    function getLocalTimestamp(isoDateTimeStr=null){
+      let dt;
+      if (isoDateTimeStr === null) {
+        dt = new Date();
+      } else {
+        dt = new Date(isoDateTimeStr);
+      }
+      const time = isNaN(dt) ? "" : dt.toLocaleTimeString("de-AT", {hour:"2-digit", minute:"2-digit", second:"2-digit"});
+      return time;
+    }
+
+    function renderStats(){
+      const {byPlace, bySource, total} = getCounts();
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("placeCount").textContent = Object.values(byPlace).filter(v => v > 0).length;
+      document.getElementById("sourceCount").textContent = Object.values(bySource).filter(v => v > 0).length;
+    }
+
+    function renderMatrix(){
+      const {matrix, byPlace, bySource, total} = getCounts();
+      const table = document.getElementById("matrixTable");
+
+      let html = "<thead><tr><th>Ort</th>";
+      state.sources.forEach(source => html += `<th>${escapeHtml(source)}</th>`);
+      html += "<th>Summe</th></tr></thead><tbody>";
+
+      state.places.forEach(place => {
+        html += `<tr><td>${escapeHtml(place)}</td>`;
+        state.sources.forEach(source => {
+          const val = matrix[place]?.[source] ?? 0;
+          html += `<td>${val}</td>`;
+        });
+        html += `<td><strong>${byPlace[place] ?? 0}</strong></td></tr>`;
+      });
+
+      html += `<tr><td><strong>Summe</strong></td>`;
+      state.sources.forEach(source => {
+        html += `<td><strong>${bySource[source] ?? 0}</strong></td>`;
+      });
+      html += `<td><strong>${total}</strong></td></tr>`;
+
+      html += "</tbody>";
+      table.innerHTML = html;
+    }
+
+    function renderLog(){
+      const log = document.getElementById("log");
+      if(state.entries.length === 0){
+        log.innerHTML = '<div class="muted">Noch keine Einträge vorhanden.</div>';
+        return;
+      }
+      const latest = [...state.entries].slice(-12).reverse();
+      log.innerHTML = latest.map(e => {
+        const time = getLocalTimestamp(e.timestamp);
+        return `<div class="logitem">
+          <div><strong>${escapeHtml(e.place)}</strong> × ${escapeHtml(e.source)} <span class="ok">(+${e.size})</span></div>
+          <div class="muted">${time}</div>
+        </div>`;
+      }).join("");
+    }
+
+    function renderAll(){
+      renderCategoryButtons();
+      renderSizeButtons();
+      renderSelection();
+      renderStats();
+      renderMatrix();
+      renderLog();
+    }
+
+    function cleanLines(text){
+      return text
+        .split("\n")
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+
+    function saveEntry(){
+      if(!state.selectedPlace || !state.selectedSource){
+        alert("Bitte zuerst einen Ort und eine Quelle auswählen.");
+        return;
+      }
+      state.entries.push({
+        place: state.selectedPlace,
+        source: state.selectedSource,
+        size: state.selectedSize,
+        timestamp: new Date().toISOString()
+      });
+      saveState();
+      renderAll();
+
+      showToast(`${state.selectedPlace} × ${state.selectedSource} (+${state.selectedSize})`);
+    }
+
+    function undoLast(){
+      if(state.entries.length === 0){
+        alert("Es gibt keinen Eintrag zum Rückgängigmachen.");
+        return;
+      }
+      state.entries.pop();
+      saveState();
+      renderAll();
+    }
+
+    function download(filename, content, type){
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function csvEscape(v){
+      const s = String(v ?? "");
+      if (/[;"\n,]/.test(s)) return '"' + s.replaceAll('"','""') + '"';
+      return s;
+    }
+
+    function exportCsv(){
+      const {matrix, byPlace, bySource, total} = getCounts();
+      let lines = [];
+
+      lines.push("Matrix Ort x Quelle");
+      lines.push(["Ort", ...state.sources, "Summe"].map(csvEscape).join(";"));
+      state.places.forEach(place => {
+        const row = [place, ...state.sources.map(source => matrix[place]?.[source] ?? 0), byPlace[place] ?? 0];
+        lines.push(row.map(csvEscape).join(";"));
+      });
+      lines.push(["Summe", ...state.sources.map(source => bySource[source] ?? 0), total].map(csvEscape).join(";"));
+      lines.push("");
+      lines.push("Einzelereignisse");
+      lines.push(["Zeitpunkt", "Ort", "Quelle", "Anzahl"].map(csvEscape).join(";"));
+      state.entries.forEach(e => {
+        lines.push([e.timestamp, e.place, e.source, e.size].map(csvEscape).join(";"));
+      });
+
+      //const stamp = new Date().toISOString().slice(0,19).replaceAll(":","-");
+      const stamp = new Date().toLocaleString("de-AT").replaceAll(":","-").replaceAll(", ", "__").replaceAll(".", "-");
+      download(`weinfrueling-befragung-${stamp}.csv`, lines.join("\n"), "text/csv;charset=utf-8");
+    }
+
+    function exportJson(){
+      const data = {
+        exportedAt: new Date().toISOString(),
+        places: state.places,
+        sources: state.sources,
+        entries: state.entries,
+        counts: getCounts()
+      };
+      //const stamp = new Date().toISOString().slice(0,19).replaceAll(":","-");
+      const stamp = new Date().toLocaleString("de-AT").replaceAll(":","-").replaceAll(", ", "__").replaceAll(".", "-");
+      download(`weinfrueling-befragung-${stamp}.json`, JSON.stringify(data, null, 2), "application/json;charset=utf-8");
+    }
+
+    function showView(viewName){
+      document.querySelectorAll(".view").forEach(view => {
+        view.classList.remove("active");
+      });
+
+      const target = document.getElementById("view-" + viewName);
+      if(target){
+        target.classList.add("active");
+      }
+
+      document.querySelectorAll(".navBtn").forEach(btn => {
+        btn.classList.remove("primary", "secondary", "active");
+        if(btn.dataset.view === viewName){
+          btn.classList.add("primary", "active");
+        } else {
+          btn.classList.add("secondary");
+        }
+      });
+    }
+
+    document.querySelectorAll(".navBtn").forEach(btn => {
+      btn.onclick = () => showView(btn.dataset.view);
+    });
+
+    //document.getElementById("saveBtn").onclick = saveEntry;
+    document.getElementById("undoBtn").onclick = undoLast;
+    document.getElementById("exportCsvBtn").onclick = exportCsv;
+    document.getElementById("exportJsonBtn").onclick = exportJson;
+
+    document.getElementById("saveSettingsBtn").onclick = () => {
+      const newPlaces = cleanLines(document.getElementById("placesInput").value);
+      const newSources = cleanLines(document.getElementById("sourcesInput").value);
+
+      if(newPlaces.length === 0 || newSources.length === 0){
+        alert("Bitte mindestens einen Ort und eine Quelle angeben.");
+        return;
+      }
+
+      state.places = newPlaces;
+      state.sources = newSources;
+
+      if(!state.places.includes(state.selectedPlace)) state.selectedPlace = null;
+      if(!state.sources.includes(state.selectedSource)) state.selectedSource = null;
+
+      saveState();
+      renderAll();
+      alert("Kategorien gespeichert.");
+    };
+
+    document.getElementById("resetSettingsBtn").onclick = () => {
+      if(!confirm("Standardkategorien laden? Eigene Kategorien werden ersetzt.")) return;
+      state.places = [...DEFAULT_PLACES];
+      state.sources = [...DEFAULT_SOURCES];
+      if(!state.places.includes(state.selectedPlace)) state.selectedPlace = null;
+      if(!state.sources.includes(state.selectedSource)) state.selectedSource = null;
+      saveState();
+      renderAll();
+    };
+
+    document.getElementById("resetAllBtn").onclick = () => {
+      if(!confirm("Wirklich alle erfassten Daten löschen?")) return;
+      if(!confirm("Sicher? Dieser Schritt kann nicht rückgängig gemacht werden.")) return;
+      state.entries = [];
+      saveState();
+      renderAll();
+    };
+
+    renderAll();
+  </script>
+</body>
+</html>
