@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weinfrühling Befragung</title>
+  <title>Weinfrühling Besucherstatistik</title>
   <style>
     :root{
       --bg:#f5f7fb;
@@ -16,6 +16,9 @@
       --ok:#16a34a;
       --warn:#dc2626;
       --soft:#eef2ff;
+
+      --btn-font-size: 19px;
+      --btn-height: 72px;
     }
     *{
       box-sizing:border-box
@@ -91,11 +94,11 @@
       background:#fff;
       color:var(--text);
       border-radius:12px;
-      padding:12px 14px;
+      padding: 12px;
       cursor:pointer;
       font-size:16px;
       font-weight:600;
-      min-height:58px;
+      /*min-height:5px;*/
     }
     button:hover{
       border-color:#b6c1d3
@@ -123,9 +126,9 @@
       border-color:var(--accent);
       background:var(--soft);
     }
-    .big{
-      font-size:19px;
-      min-height:72px;
+    button.big{
+      font-size: var(--btn-font-size);
+      min-height: var(--btn-height);
     }
     .summary{
       display:grid;
@@ -383,7 +386,21 @@
       <div class="card section">
         <h2>Einstellungen</h2>
 
-        <div class="settings">
+        <div style="display:flex; gap:20px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+          <div>
+            <label for="fontSizeSlider">Schriftgröße:</label>
+            <input type="range" min="14" max="30" value="19" id="fontSizeSlider">
+            <span id="fontSizeValue">19 px</span>
+
+            <label for="buttonSizeSlider">Buttongröße:</label>
+            <input type="range" min="50" max="110" value="72" id="buttonSizeSlider">
+            <span id="buttonSizeValue">72 px</span>
+          </div>
+
+          <button class="big" style="min-width:200px;">Testbutton</button>
+        </div>
+        
+        <div class="settings">          
           <div class="settings-card">
             <label for="placesInput">Orte</label>
             <div class="small">Eine Zeile pro Ort</div>
@@ -531,6 +548,48 @@
         wrap.appendChild(btn);
       });
     }
+
+    const fontSizeSlider = document.getElementById("fontSizeSlider");
+    const buttonSizeSlider = document.getElementById("buttonSizeSlider");
+    const fontSizeValue = document.getElementById("fontSizeValue");
+    const buttonSizeValue = document.getElementById("buttonSizeValue");
+
+    function applyButtonSettings(fontSize, buttonHeight){
+      document.documentElement.style.setProperty("--btn-font-size", fontSize + "px");
+      document.documentElement.style.setProperty("--btn-height", buttonHeight + "px");
+      fontSizeSlider.value = fontSize;
+      buttonSizeSlider.value = buttonHeight;
+      fontSizeValue.textContent = fontSize + " px";
+      buttonSizeValue.textContent = buttonHeight + " px";
+    }
+
+    function saveButtonSettings(fontSize, buttonHeight){
+      localStorage.setItem("btnFontSize", fontSize);
+      localStorage.setItem("btnHeight", buttonHeight);
+    }
+
+    function loadButtonSettings(){
+      const savedFontSize = localStorage.getItem("btnFontSize");
+      const savedButtonHeight = localStorage.getItem("btnHeight");
+      const fontSize = savedFontSize ? parseInt(savedFontSize, 10) : 19;
+      const buttonHeight = savedButtonHeight ? parseInt(savedButtonHeight, 10) : 72;
+      applyButtonSettings(fontSize, buttonHeight);
+    }
+
+    fontSizeSlider.addEventListener("input", (e) => {
+      const fontSize = parseInt(e.target.value, 10);
+      const buttonHeight = parseInt(buttonSizeSlider.value, 10);
+      applyButtonSettings(fontSize, buttonHeight);
+      saveButtonSettings(fontSize, buttonHeight);
+    });
+
+    buttonSizeSlider.addEventListener("input", (e) => {
+      const fontSize = parseInt(fontSizeSlider.value, 10);
+      const buttonHeight = parseInt(e.target.value, 10);
+      applyButtonSettings(fontSize, buttonHeight);
+      saveButtonSettings(fontSize, buttonHeight);
+    });
+
 
     function renderSelection(){
       const txt = `${state.selectedPlace ?? "Kein Ort"} / ${state.selectedSource ?? "keine Quelle"}`;
@@ -806,6 +865,7 @@
     };
 
     renderAll();
+    loadButtonSettings();
   </script>
 </body>
 </html>
