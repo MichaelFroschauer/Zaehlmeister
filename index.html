@@ -271,6 +271,12 @@
       min-height:var(--btn-height);
     }
 
+    #undoBtn{
+      font-size:14px;
+      padding:8px 12px;
+      width: 100%;
+    }
+
     .size-btn{
       font-size:22px !important;
       font-weight:800;
@@ -483,7 +489,7 @@
     .slider-group{
       display:grid;
       gap:12px;
-      min-width:320px;
+      min-width:180px;
       flex:1;
     }
 
@@ -500,7 +506,7 @@
     }
 
     .slider-row input[type="range"]{
-      flex:1;
+      flex: 1;
       min-width:180px;
       accent-color:var(--accent);
     }
@@ -561,7 +567,7 @@
       transform:translateY(0) scale(1);
     }
 
-    @media (max-width: 900px){
+    @media (max-width: 600px){
       .grid{
         grid-template-columns:1fr;
       }
@@ -579,7 +585,7 @@
       }
     }
 
-    @media (max-width: 700px){
+    @media (max-width: 500px){
       .wrap{
         padding:12px 12px 0 12px;
       }
@@ -598,6 +604,7 @@
 
       .navTabs button{
         flex:1;
+        padding: 4px;
       }
 
       .sizegrid{
@@ -675,7 +682,7 @@
             <hr>
 
             <div class="section">
-              <label>Letzte Einträge</label>
+              <!-- <label>Letzte Einträge</label> -->
               <div class="subsection">
                 <button class="secondary" id="undoBtn">Letzten Eintrag rückgängig</button>
               </div>
@@ -808,9 +815,9 @@
     ];
 
     const DEFAULT_SOURCES = [
-      "Freunde/Bekannte",
-      "Instagram/Facebook",
-      "Plakat/Flyer",
+      "Freunde Bekannte",
+      "Instagram Facebook",
+      "Plakat Flyer",
       "Verein",
       "Stammgast",
       "Sonstiges"
@@ -1106,7 +1113,7 @@
 
     function undoLast(){
       if(state.entries.length === 0){
-        alert("Es gibt keinen Eintrag zum Rückgängigmachen.");
+        //alert("Es gibt keinen Eintrag zum Rückgängigmachen.");
         return;
       }
 
