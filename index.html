@@ -8,24 +8,90 @@
     :root{
       --bg:#f5f7fb;
       --bg-soft:#fbfcff;
+      --bg-white:#ffffff;
+      --bg-table:#f8fafc;
+      --bg-table-alt:#fafbfc;
+      --bg-table-hover:#f4f7fb;
+
       --card:rgba(255,255,255,.94);
+      --card-border:rgba(217,224,234,.95);
+
       --line:#d9e0ea;
       --line-strong:#c7d2e3;
+      --line-soft:#e5e7eb;
+      --line-hover:#b6c1d3;
+      --line-log:#edf2f7;
+
       --text:#1f2937;
       --muted:#6b7280;
+      --white:#ffffff;
 
+      --shadow-xs:rgba(0,0,0,.03);
+      --shadow-sm:rgba(15,23,42,.03);
+      --shadow-md:rgba(15,23,42,.05);
+      --shadow-lg:rgba(15,23,42,.07);
+      --shadow-toast-1:rgba(0,0,0,.08);
+      --shadow-toast-2:rgba(0,0,0,.05);
+      --inset-white:rgba(255,255,255,.7);
+      --inset-white-strong:rgba(255,255,255,.85);
+
+      --accent:#16a34a;
+      --accent-2:#15803d;
+      --accent-soft:#ecfdf5;
+      --accent-soft-2:#f0fdf4;
+      --accent-bg:#dcfce7;
+      --accent-border:#bbf7d0;
+      --accent-focus:#86efac;
+      --accent-text:#166534;
+      --accent-text-strong:#14532d;
+      --accent-shadow:rgba(22,163,74,.12);
+      --accent-shadow-soft:rgba(22,163,74,.08);
+      --accent-focus-shadow:rgba(22,163,74,.10);
+
+      --ok:#16a34a;
+      --ok-soft:#ecfdf3;
+      --ok-bg:#dcfce7;
+      --ok-border:#bbf7d0;
+      --ok-text:#166534;
+
+      --warn:#dc2626;
+      --warn-soft:#fff5f5;
+      --warn-bg:#fef2f2;
+      --warn-border:#fecaca;
+      --warn-text:#b91c1c;
+
+      --btn-font-size:19px;
+      --btn-height:72px;
+    }
+
+    :root.theme-purple{
       --accent:#7c3aed;
       --accent-2:#6d28d9;
       --accent-soft:#f3e8ff;
       --accent-soft-2:#faf5ff;
+      --accent-bg:#efe7ff;
+      --accent-border:#ddd6fe;
+      --accent-focus:#c4b5fd;
+      --accent-text:#5b21b6;
+      --accent-text-strong:#4c1d95;
+      --accent-shadow:rgba(124,58,237,.12);
+      --accent-shadow-soft:rgba(109,40,217,.08);
+      --accent-focus-shadow:rgba(124,58,237,.10);
+    }
 
-      --ok:#16a34a;
-      --ok-soft:#ecfdf3;
-      --warn:#dc2626;
-      --warn-soft:#fff5f5;
-
-      --btn-font-size: 19px;
-      --btn-height: 72px;
+    :root.theme-green{
+      --accent:#16a34a;
+      --accent-2:#15803d;
+      --accent-soft:#ecfdf5;
+      --accent-soft-2:#f0fdf4;
+      --accent-bg:#dcfce7;
+      --accent-border:#bbf7d0;
+      --accent-focus:#86efac;
+      --accent-text:#166534;
+      --accent-text-strong:#14532d;
+      --accent-shadow:rgba(22,163,74,.12);
+      --accent-shadow-soft:rgba(22,163,74,.08);
+      --accent-focus-shadow:rgba(22,163,74,.10);
     }
 
     *{
@@ -41,7 +107,7 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, #ffffff 0%, #f9fafc 22%, #f5f7fb 60%),
+        radial-gradient(circle at top left, var(--bg-white) 0%, var(--bg-table-alt) 22%, var(--bg) 60%),
         var(--bg);
     }
 
@@ -76,7 +142,7 @@
 
     hr{
       border:none;
-      border-top:1px solid #e5e7eb;
+      border-top:1px solid var(--line-soft);
       margin:16px 0;
     }
 
@@ -97,11 +163,11 @@
       padding:8px 18px;
       border:1px solid var(--line);
       border-radius:20px;
-      background:linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.96) 100%);
+      background:linear-gradient(135deg, var(--card) 0%, var(--bg-table) 100%);
       box-shadow:
-        0 1px 2px rgba(15,23,42,.03),
-        0 14px 34px rgba(15,23,42,.05);
-      backdrop-filter: blur(4px);
+        0 1px 2px var(--shadow-sm),
+        0 14px 34px var(--shadow-md);
+      backdrop-filter:blur(4px);
     }
 
     .header-title{
@@ -132,20 +198,20 @@
 
     .card{
       background:var(--card);
-      border:1px solid rgba(217,224,234,.95);
+      border:1px solid var(--card-border);
       border-radius:18px;
       padding:18px;
       box-shadow:
-        0 1px 2px rgba(15,23,42,.03),
-        0 10px 30px rgba(15,23,42,.05);
-      backdrop-filter: blur(6px);
+        0 1px 2px var(--shadow-sm),
+        0 10px 30px var(--shadow-md);
+      backdrop-filter:blur(6px);
     }
 
     .card.focus{
-      border-color:#ddd6fe;
+      border-color:var(--accent-border);
       box-shadow:
-        0 1px 2px rgba(15,23,42,.03),
-        0 12px 34px rgba(109,40,217,.08);
+        0 1px 2px var(--shadow-sm),
+        0 12px 34px var(--accent-shadow-soft);
     }
 
     .section{
@@ -203,7 +269,7 @@
 
     button{
       border:1px solid var(--line);
-      background:#fff;
+      background:var(--bg-white);
       color:var(--text);
       border-radius:14px;
       padding:12px 14px;
@@ -217,12 +283,12 @@
         border-color .16s ease,
         background-color .16s ease,
         color .16s ease;
-      box-shadow:0 1px 2px rgba(0,0,0,.03);
+      box-shadow:0 1px 2px var(--shadow-xs);
     }
 
     button:hover{
-      border-color:#b6c1d3;
-      box-shadow:0 6px 16px rgba(15,23,42,.07);
+      border-color:var(--line-hover);
+      box-shadow:0 6px 16px var(--shadow-lg);
     }
 
     button:active{
@@ -237,7 +303,7 @@
 
     button.primary{
       background:linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
-      color:#fff;
+      color:var(--white);
       border-color:transparent;
     }
 
@@ -246,26 +312,26 @@
     }
 
     button.secondary{
-      background:linear-gradient(180deg, #f8f6ff 0%, #efeaff 100%);
-      border-color:#ddd6fe;
-      color:#5b21b6;
+      background:linear-gradient(180deg, var(--accent-soft-2) 0%, var(--accent-soft) 100%);
+      border-color:var(--accent-border);
+      color:var(--accent-text);
     }
 
     button.danger{
-      background:linear-gradient(180deg, #fff5f5 0%, #fef2f2 100%);
-      border-color:#fecaca;
-      color:#b91c1c;
+      background:linear-gradient(180deg, var(--warn-soft) 0%, var(--warn-bg) 100%);
+      border-color:var(--warn-border);
+      color:var(--warn-text);
     }
 
     button.selected{
       outline:none;
       border-color:var(--accent);
-      background:linear-gradient(180deg, #f8f5ff 0%, #efe7ff 100%);
+      background:linear-gradient(180deg, var(--accent-soft-2) 0%, var(--accent-bg) 100%);
       box-shadow:
-        0 0 0 3px rgba(124,58,237,.12),
-        inset 0 1px 0 rgba(255,255,255,.7);
+        0 0 0 3px var(--accent-shadow),
+        inset 0 1px 0 var(--inset-white);
     }
-
+    
     button.big{
       font-size:var(--btn-font-size);
       min-height:var(--btn-height);
@@ -302,7 +368,7 @@
       border-radius:12px;
       padding:10px 12px;
       font-size:15px;
-      background:#fff;
+      background:var(--bg-white);
       color:var(--text);
       transition:border-color .15s ease, box-shadow .15s ease;
     }
@@ -310,8 +376,8 @@
     input[type="text"]:focus,
     textarea:focus{
       outline:none;
-      border-color:#c4b5fd;
-      box-shadow:0 0 0 3px rgba(124,58,237,.1);
+      border-color:var(--accent-focus);
+      box-shadow:0 0 0 3px var(--accent-focus-shadow);
     }
 
     textarea{
@@ -320,19 +386,19 @@
     }
 
     .selection-card{
-      border:1px solid #ddd6fe;
-      background:linear-gradient(180deg, #faf5ff 0%, #f5f3ff 100%);
+      border:1px solid var(--accent-border);
+      background:linear-gradient(180deg, var(--accent-soft-2) 0%, var(--accent-soft) 100%);
       border-radius:14px;
       padding:14px;
       margin-bottom:12px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+      box-shadow:inset 0 1px 0 var(--inset-white-strong);
     }
 
     .selection-title{
       font-size:12px;
       text-transform:uppercase;
       letter-spacing:.08em;
-      color:#6d28d9;
+      color:var(--accent-text);
       margin-bottom:6px;
       font-weight:700;
     }
@@ -353,8 +419,8 @@
       border:1px solid var(--line);
       border-radius:16px;
       padding:14px;
-      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      box-shadow:0 4px 14px rgba(15,23,42,.04);
+      background:linear-gradient(180deg, var(--bg-white) 0%, var(--bg-table) 100%);
+      box-shadow:0 4px 14px var(--shadow-sm);
     }
 
     .stat .n{
@@ -371,16 +437,16 @@
       border:1px solid var(--line);
       border-radius:14px;
       padding:8px;
-      background:linear-gradient(180deg, #fcfdff 0%, #f8fafc 100%);
+      background:linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-table) 100%);
     }
 
     .logitem{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
-      gap: 4px;
+      gap:4px;
       padding:4px 4px;
-      border-bottom:1px solid #edf2f7;
+      border-bottom:1px solid var(--line-log);
       font-size:13px;
     }
 
@@ -403,8 +469,8 @@
       max-height:700px;
       border:1px solid var(--line);
       border-radius:16px;
-      background:#fff;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+      background:var(--bg-white);
+      box-shadow:inset 0 1px 0 var(--inset-white-strong);
     }
 
     table{
@@ -421,7 +487,7 @@
     }
 
     th{
-      background:#f8fafc;
+      background:var(--bg-table);
       position:sticky;
       top:0;
       z-index:2;
@@ -433,20 +499,20 @@
       text-align:left;
       position:sticky;
       left:0;
-      background:#f8fafc;
+      background:var(--bg-table);
       z-index:1;
     }
 
     tbody tr:nth-child(even){
-      background:#fafbfc;
+      background:var(--bg-table-alt);
     }
 
     tbody tr:hover{
-      background:#f4f7fb;
+      background:var(--bg-table-hover);
     }
 
     tbody tr:last-child{
-      background:#efeaff;
+      background:var(--accent-soft);
       font-weight:800;
     }
 
@@ -457,11 +523,11 @@
     }
 
     .settings-card{
-      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      background:linear-gradient(180deg, var(--bg-white) 0%, var(--bg-table) 100%);
       border:1px solid var(--line);
       border-radius:16px;
       padding:14px;
-      box-shadow:0 4px 14px rgba(15,23,42,.03);
+      box-shadow:0 4px 14px var(--shadow-sm);
     }
 
     .settings-actions{
@@ -483,7 +549,7 @@
       margin-bottom:18px;
       border:1px solid var(--line);
       border-radius:16px;
-      background:linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      background:linear-gradient(180deg, var(--bg-white) 0%, var(--bg-table) 100%);
     }
 
     .slider-group{
@@ -518,9 +584,9 @@
       min-width:64px;
       padding:6px 10px;
       border-radius:999px;
-      background:#efeaff;
-      border:1px solid #ddd6fe;
-      color:#5b21b6;
+      background:var(--accent-soft);
+      border:1px solid var(--accent-border);
+      color:var(--accent-text);
       font-weight:700;
       font-size:13px;
     }
@@ -544,14 +610,14 @@
       position:fixed;
       right:16px;
       bottom:16px;
-      background:linear-gradient(180deg, #ecfdf3 0%, #dcfce7 100%);
-      color:#166534;
-      border:1px solid #bbf7d0;
+      background:linear-gradient(180deg, var(--ok-soft) 0%, var(--ok-bg) 100%);
+      color:var(--ok-text);
+      border:1px solid var(--ok-border);
       padding:12px 16px;
       border-radius:14px;
       box-shadow:
-        0 8px 24px rgba(0,0,0,.08),
-        0 2px 6px rgba(0,0,0,.05);
+        0 8px 24px var(--shadow-toast-1),
+        0 2px 6px var(--shadow-toast-2);
       font-size:14px;
       font-weight:700;
       opacity:0;
@@ -618,6 +684,22 @@
       .slider-row label{
         min-width:auto;
         width:100%;
+      }
+
+      select{
+        font-family:inherit;
+        border:1px solid var(--line);
+        border-radius:12px;
+        padding:10px 12px;
+        font-size:15px;
+        background:var(--bg-white);
+        color:var(--text);
+      }
+
+      select:focus{
+        outline:none;
+        border-color:var(--accent-focus);
+        box-shadow:0 0 0 3px var(--accent-focus-shadow);
       }
 
       .test-button-wrap{
@@ -751,6 +833,14 @@
               <span id="buttonSizeValue" class="slider-value">72 px</span>
             </div>
 
+            <div class="slider-row">
+              <label for="themeSelect">Theme</label>
+              <select id="themeSelect">
+                <option value="theme-green">Grün</option>
+                <option value="theme-purple">Lila</option>
+              </select>
+            </div>
+
             <div class="tiny">
               Änderungen wirken sich sofort auf die Buttons in der Erfassung aus.
             </div>
@@ -828,7 +918,8 @@
       places: "zeltfest_places_v1",
       sources: "zeltfest_sources_v1",
       btnFontSize: "btnFontSize",
-      btnHeight: "btnHeight"
+      btnHeight: "btnHeight",
+      theme: "theme"
     };
 
     let state = {
@@ -870,6 +961,7 @@
     const buttonSizeSlider = document.getElementById("buttonSizeSlider");
     const fontSizeValue = document.getElementById("fontSizeValue");
     const buttonSizeValue = document.getElementById("buttonSizeValue");
+    const themeSelect = document.getElementById("themeSelect");
 
     function applyButtonSettings(fontSize, buttonHeight){
       document.documentElement.style.setProperty("--btn-font-size", fontSize + "px");
@@ -896,6 +988,21 @@
       applyButtonSettings(fontSize, buttonHeight);
     }
 
+    function applyTheme(theme){
+      document.documentElement.classList.remove("theme-green", "theme-purple");
+      document.documentElement.classList.add(theme);
+      themeSelect.value = theme;
+    }
+
+    function saveTheme(theme){
+      localStorage.setItem(STORAGE_KEYS.theme, theme);
+    }
+
+    function loadTheme(){
+      const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || "theme-green";
+      applyTheme(savedTheme);
+    }
+
     fontSizeSlider.addEventListener("input", (e) => {
       const fontSize = parseInt(e.target.value, 10);
       const buttonHeight = parseInt(buttonSizeSlider.value, 10);
@@ -908,6 +1015,12 @@
       const buttonHeight = parseInt(e.target.value, 10);
       applyButtonSettings(fontSize, buttonHeight);
       saveButtonSettings(fontSize, buttonHeight);
+    });
+
+    themeSelect.addEventListener("change", (e) => {
+      const theme = e.target.value;
+      applyTheme(theme);
+      saveTheme(theme);
     });
 
     function renderCategoryButtons(){
@@ -1257,6 +1370,7 @@
       showToast("Alle Daten gelöscht");
     };
 
+    loadTheme();
     renderAll();
     loadButtonSettings();
   </script>
