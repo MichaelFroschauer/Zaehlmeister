@@ -96,6 +96,21 @@
       --accent-shadow-soft:rgba(22,163,74,.08);
       --accent-focus-shadow:rgba(22,163,74,.10);
     }
+    
+    :root.theme-pink{
+        --accent:#ec4899;
+        --accent-2:#db2777;
+        --accent-soft:#fdf2f8;
+        --accent-soft-2:#fff5f9;
+        --accent-bg:#fce7f3;
+        --accent-border:#fbcfe8;
+        --accent-focus:#f9a8d4;
+        --accent-text:#be185d;
+        --accent-text-strong:#9d174d;
+        --accent-shadow:rgba(236,72,153,.12);
+        --accent-shadow-soft:rgba(219,39,119,.08);
+        --accent-focus-shadow:rgba(236,72,153,.10);
+    }
 
     *{
       box-sizing:border-box;
@@ -883,6 +898,7 @@
               <select id="themeSelect">
                 <option value="theme-green">Grün</option>
                 <option value="theme-purple">Lila</option>
+                <option value="theme-pink">Pink</option>
               </select>
             </div>
 
@@ -1034,7 +1050,7 @@
     }
 
     function applyTheme(theme){
-      document.documentElement.classList.remove("theme-green", "theme-purple");
+      document.documentElement.classList.remove("theme-green", "theme-purple", "theme-pink");
       document.documentElement.classList.add(theme);
       themeSelect.value = theme;
     }
